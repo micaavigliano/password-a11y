@@ -1,10 +1,11 @@
 import React, {
   useEffect,
-  useState,
   useCallback,
   Dispatch,
   SetStateAction,
+  useState,
 } from "react";
+import clsx from "clsx";
 import { Cancel, CheckCircle } from "@mui/icons-material";
 
 interface RequirementsProps {
@@ -20,6 +21,7 @@ interface Requirement {
   text: string;
   matchRegex: RegExp;
   error?: string;
+  initialState: boolean;
 }
 
 const PasswordRequirements: React.FC<RequirementsProps> = ({
@@ -29,7 +31,11 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
   idInput,
 }) => {
   const isArray = Array.isArray(requirement);
-  const uniqueReq = !isArray && password.match(requirement.matchRegex);
+  const [requirementState, setRequirementState] = useState(false);
+
+  const updateState = useCallback(() => {
+    setRequirementState(true);
+  }, []);
 
   const checkIfAllAreChecked = useCallback(
     (requirement: Requirement[] | Requirement) => {
@@ -37,20 +43,16 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
         requirement.forEach((req: Requirement) => {
           const matchResult = password?.match(req.matchRegex);
           setAllChecked(true);
+          updateState();
 
           if (!matchResult) {
             setAllChecked(false);
+            updateState();
           }
         });
       }
-
-      if (uniqueReq) {
-        setAllChecked(true);
-      } else {
-        setAllChecked(false);
-      }
     },
-    [password, setAllChecked, uniqueReq]
+    [password, setAllChecked, updateState]
   );
 
   useEffect(() => {
@@ -59,11 +61,12 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
 
   return (
     <div data-testid="requirement-id" className="my-4">
-      {isArray ? (
+      {isArray &&
         requirement.map((req: Requirement) => (
           <div
             key={req.id}
             role="status"
+            aria-live="assertive"
             data-testid="text-container"
             className="flex flex-row gap-2 items-center"
           >
@@ -98,33 +101,7 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
               </div>
             )}
           </div>
-        ))
-      ) : (
-        <div data-testid="text-container">
-          <div role="status" className="flex flex-row gap-2 items-center">
-            <div
-              data-testid="icon-container"
-              className={uniqueReq ? `text-green-500` : `text-red-500`}
-            >
-              {uniqueReq ? <CheckCircle /> : <Cancel />}
-            </div>
-            <>
-              {!uniqueReq && (
-                <div
-                  aria-live="assertive"
-                  data-testid="hidden-msg"
-                  className="overflow-hidden hidden"
-                >
-                  {requirement.error}
-                </div>
-              )}
-            </>
-            <p className={uniqueReq ? `text-green-500` : `text-red-500`}>
-              {requirement.text}
-            </p>
-          </div>
-        </div>
-      )}
+        ))}
     </div>
   );
 };

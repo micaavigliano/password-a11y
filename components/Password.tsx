@@ -15,11 +15,11 @@ const PasswordComponent = () => {
   };
 
   return (
-    <section className="m-auto flex flex-col items-center">
+    <section className="m-auto flex flex-col items-center rounded-md border-solid border-2 border-white p-6 box-border">
       <h1>Componente accesible para validar contraseñas</h1>
       <form onSubmit={handleSubmit} id="form-id" className="py-2">
         <label htmlFor="password-input-id">Password</label>
-        <div className="rounded-full border-solid border-2 border-white px-3 py-1">
+        <div className="rounded-full border-solid border-2 border-white px-3 py-1 flex flex-row justify-between">
           <input
             type={seePassword ? "text" : "password"}
             onChange={(e) => setPassword(e.target.value)}
@@ -46,7 +46,7 @@ const PasswordComponent = () => {
         <PasswordRequirements
           id="password-requirement"
           idInput="password-input-id"
-          requirement={requirementsArray}
+          requirement={testRequirement}
           password={password!}
           setAllChecked={setAllChecked}
         />
