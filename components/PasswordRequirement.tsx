@@ -6,14 +6,15 @@ import React, {
   useState,
 } from "react";
 import clsx from "clsx";
-import { Cancel, CheckCircle } from "@mui/icons-material";
+import { Cancel, CheckCircle, RadioButtonChecked } from "@mui/icons-material";
 
 interface RequirementsProps {
   requirement: Requirement | Requirement[];
   password: string;
-  setAllChecked: Dispatch<SetStateAction<boolean>>;
+  setIsDirty: Dispatch<SetStateAction<boolean | null>>;
   id: string;
   idInput: string;
+  isDirty: boolean | null;
 }
 
 interface Requirement {
@@ -21,14 +22,14 @@ interface Requirement {
   text: string;
   matchRegex: RegExp;
   error?: string;
-  initialState: boolean;
 }
 
 const PasswordRequirements: React.FC<RequirementsProps> = ({
   requirement,
   password,
-  setAllChecked,
+  setIsDirty,
   idInput,
+  isDirty,
 }) => {
   const isArray = Array.isArray(requirement);
 
@@ -37,20 +38,24 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
       if (Array.isArray(requirement)) {
         requirement.forEach((req: Requirement) => {
           const matchResult = password?.match(req.matchRegex);
-          setAllChecked(true);
+          setIsDirty(true);
 
           if (!matchResult) {
-            setAllChecked(false);
+            setIsDirty(false);
           }
         });
       }
     },
-    [password, setAllChecked]
+    [password, setIsDirty]
   );
 
   useEffect(() => {
     checkIfAllAreChecked(requirement);
-  }, [password, checkIfAllAreChecked, requirement]);
+  }, [password, checkIfAllAreChecked, requirement, setIsDirty]);
+
+  useEffect(() => {
+    setIsDirty(null);
+  }, [setIsDirty]);
 
   return (
     <div data-testid="requirement-id" className="my-4">
@@ -58,35 +63,46 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
         requirement.map((req: Requirement) => (
           <div
             key={req.id}
-            role="status"
-            aria-live="assertive"
             data-testid="text-container"
             className="flex flex-row gap-2 items-center"
           >
-            <div
-              data-testid="icon-container"
-              className={
-                password.match(req.matchRegex)
-                  ? `text-green-500`
-                  : `text-red-500`
-              }
-            >
-              {password.match(req.matchRegex) ? <CheckCircle /> : <Cancel />}
-            </div>
-            <p
-              className={
-                password.match(req.matchRegex)
-                  ? `text-green-500`
-                  : `text-red-500`
-              }
-              aria-describedby={idInput}
-            >
-              {req.text}
-            </p>
+            {isDirty === null ? (
+              <div className="text-gray-500">
+                <RadioButtonChecked />
+              </div>
+            ) : (
+              <div
+                data-testid="icon-container"
+                className={
+                  password.match(req.matchRegex)
+                    ? `text-green-500`
+                    : `text-red-500`
+                }
+              >
+                {password.match(req.matchRegex) ? <CheckCircle /> : <Cancel />}
+              </div>
+            )}
+            {isDirty === null ? (
+              <p className="text-gray-500" aria-live="polite" id={idInput}>
+                {req.text}
+              </p>
+            ) : (
+              <>
+                <p
+                  className={
+                    password.match(req.matchRegex)
+                      ? `text-green-500`
+                      : `text-red-500`
+                  }
+                  id={idInput}
+                >
+                  {req.text}
+                </p>
+              </>
+            )}
             {!password.match(req.matchRegex) && (
               <div
-                role="status"
-                aria-live="assertive"
+                role="alert"
                 data-testid="hidden-msg"
                 className="overflow-hidden hidden"
               >
