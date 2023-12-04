@@ -11,6 +11,8 @@ interface RequirementsProps {
   requirement: Requirement | Requirement[];
   password: string;
   setAllChecked: Dispatch<SetStateAction<boolean>>;
+  id: string;
+  idInput: string;
 }
 
 interface Requirement {
@@ -24,6 +26,7 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
   requirement,
   password,
   setAllChecked,
+  idInput,
 }) => {
   const isArray = Array.isArray(requirement);
   const uniqueReq = !isArray && password.match(requirement.matchRegex);
@@ -80,11 +83,13 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
                   ? `text-green-500`
                   : `text-red-500`
               }
+              aria-describedby={idInput}
             >
               {req.text}
             </p>
             {!password.match(req.matchRegex) && (
               <div
+                role="status"
                 aria-live="assertive"
                 data-testid="hidden-msg"
                 className="overflow-hidden hidden"

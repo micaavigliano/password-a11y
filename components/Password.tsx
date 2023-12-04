@@ -6,8 +6,8 @@ import PasswordRequirements from "./PasswordRequirement";
 import { requirementsArray, testRequirement } from "../helpers/requirements";
 
 const PasswordComponent = () => {
-  const [seePassword, setSeePassword] = useState(false);
-  const [allChecked, setAllChecked] = useState(false);
+  const [seePassword, setSeePassword] = useState<boolean>(false);
+  const [allChecked, setAllChecked] = useState<boolean>(false);
   const [password, setPassword] = useState<string | null>("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,6 +28,7 @@ const PasswordComponent = () => {
             aria-label="type your password"
             className="text-white bg-transparent placeholder:text-slate-400"
             id="password-input-id"
+            aria-labelledby="password-requirement"
           />
           <button
             onClick={() => {
@@ -43,7 +44,9 @@ const PasswordComponent = () => {
           </button>
         </div>
         <PasswordRequirements
-          requirement={testRequirement}
+          id="password-requirement"
+          idInput="password-input-id"
+          requirement={requirementsArray}
           password={password!}
           setAllChecked={setAllChecked}
         />
