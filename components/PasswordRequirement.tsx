@@ -31,11 +31,6 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
   idInput,
 }) => {
   const isArray = Array.isArray(requirement);
-  const [requirementState, setRequirementState] = useState(false);
-
-  const updateState = useCallback(() => {
-    setRequirementState(true);
-  }, []);
 
   const checkIfAllAreChecked = useCallback(
     (requirement: Requirement[] | Requirement) => {
@@ -43,16 +38,14 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
         requirement.forEach((req: Requirement) => {
           const matchResult = password?.match(req.matchRegex);
           setAllChecked(true);
-          updateState();
 
           if (!matchResult) {
             setAllChecked(false);
-            updateState();
           }
         });
       }
     },
-    [password, setAllChecked, updateState]
+    [password, setAllChecked]
   );
 
   useEffect(() => {

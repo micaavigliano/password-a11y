@@ -46,7 +46,7 @@ const PasswordComponent = () => {
         <PasswordRequirements
           id="password-requirement"
           idInput="password-input-id"
-          requirement={testRequirement}
+          requirement={requirementsArray}
           password={password!}
           setAllChecked={setAllChecked}
         />
