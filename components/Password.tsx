@@ -16,7 +16,7 @@ const PasswordComponent = () => {
 
   return (
     <section className="m-auto flex flex-col items-center rounded-md border-solid border-2 border-white p-6 box-border">
-      <h1 aria-describedby="must-have">La contraseña debe tener:</h1>
+      <h1 aria-describedby="must-have">Validación accessible de contraseñas</h1>
       <div
         id="must-have"
         data-testid="hidden-msg"
@@ -28,8 +28,8 @@ const PasswordComponent = () => {
           ))}
         </ul>
       </div>
-      <form onSubmit={handleSubmit} id="form-id" className="py-2">
-        <label htmlFor="password-input-id">Password</label>
+      <form onSubmit={handleSubmit} id="form-id" className="pb-2 pt-6">
+        <label htmlFor="password-input-id">Contraseña</label>
         <div
           className="rounded-full border-solid border-2 border-white px-3 py-1 flex flex-row justify-between"
           aria-label="this component include an input and a button to see the password"
@@ -47,7 +47,7 @@ const PasswordComponent = () => {
             placeholder="Type your password"
             autoComplete="new-password"
             aria-label="type your password"
-            className="text-white bg-transparent placeholder:text-slate-400"
+            className="text-white bg-transparent placeholder:text-slate-400 w-full"
             id="password-input-id"
             aria-describedby="password-requirement"
             required

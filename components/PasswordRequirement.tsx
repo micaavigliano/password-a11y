@@ -5,7 +5,6 @@ import React, {
   SetStateAction,
   useState,
 } from "react";
-import clsx from "clsx";
 import { Cancel, CheckCircle, RadioButtonChecked } from "@mui/icons-material";
 
 interface RequirementsProps {
