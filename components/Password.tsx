@@ -44,9 +44,9 @@ const PasswordComponent = () => {
                 setIsDirty(null);
               }
             }}
-            placeholder="Type your password"
+            placeholder="Escribí tu contraseña"
             autoComplete="new-password"
-            aria-label="type your password"
+            aria-label="Escribí tu contraseña"
             className="text-white bg-transparent placeholder:text-slate-400 w-11/12"
             id="password-input-id"
             aria-describedby="password-requirement"
@@ -81,7 +81,7 @@ const PasswordComponent = () => {
           }`}
           disabled={!isDirty}
         >
-          Log in
+          Crear contraseña
         </button>
       </form>
     </section>
