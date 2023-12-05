@@ -80,7 +80,7 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
             className="flex flex-row gap-2 items-center"
           >
             {isDirty === null ? (
-              <div className="text-gray-500">
+              <div className="text-slate-400">
                 <RadioButtonChecked />
               </div>
             ) : (
@@ -96,7 +96,7 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
               </div>
             )}
             {isDirty === null ? (
-              <p className="text-gray-500">{req.text}</p>
+              <p className="text-slate-400">{req.text}</p>
             ) : (
               <>
                 <p
@@ -129,15 +129,13 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
         className="absolute w-1 h-1 -m-1 overflow-hidden clip-hidden"
         id={idInput}
       >
-        <div>
-          {total === 0 ? (
-            <p>tu contrasenia esta lista!</p>
-          ) : (
-            <p>
-              {total} requirements out of {requirement.length}
-            </p>
-          )}
-        </div>
+        {total === 0 ? (
+          <p>tu contrasenia esta lista!</p>
+        ) : (
+          <p>
+            {total} requisitos de {requirement.length}
+          </p>
+        )}
       </div>
     </div>
   );
