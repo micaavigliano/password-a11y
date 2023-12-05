@@ -7,7 +7,6 @@ import { requirementsArray, testRequirement } from "../helpers/requirements";
 
 const PasswordComponent = () => {
   const [seePassword, setSeePassword] = useState<boolean>(false);
-  const [allChecked, setAllChecked] = useState<boolean>(false);
   const [password, setPassword] = useState<string | null>("");
   const [isDirty, setIsDirty] = useState<boolean | null>(null);
 

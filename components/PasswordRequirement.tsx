@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { Cancel, CheckCircle, RadioButtonChecked } from "@mui/icons-material";
 
 interface RequirementsProps {
-  requirement: Requirement | Requirement[];
+  requirement: Requirement[];
   password: string;
   setIsDirty: Dispatch<SetStateAction<boolean | null>>;
   id: string;
@@ -32,18 +32,20 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
   isDirty,
 }) => {
   const isArray = Array.isArray(requirement);
+  const [total, setTotal] = useState(requirement.length);
 
   const checkIfAllAreChecked = useCallback(
-    (requirement: Requirement[] | Requirement) => {
+    (requirement: Requirement[]) => {
+      let fulfilledRequirements = 0;
       if (Array.isArray(requirement)) {
         requirement.forEach((req: Requirement) => {
           const matchResult = password?.match(req.matchRegex);
           setIsDirty(true);
-
-          if (!matchResult) {
-            setIsDirty(false);
+          if (matchResult) {
+            fulfilledRequirements++;
           }
         });
+        setTotal(requirement.length - fulfilledRequirements);
       }
     },
     [password, setIsDirty]
@@ -94,7 +96,6 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
                       ? `text-green-500`
                       : `text-red-500`
                   }
-                  id={idInput}
                 >
                   {req.text}
                 </p>
@@ -103,6 +104,7 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
             {!password.match(req.matchRegex) && (
               <div
                 role="alert"
+                aria-live="assertive"
                 data-testid="hidden-msg"
                 className="overflow-hidden hidden"
               >
@@ -111,6 +113,23 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
             )}
           </div>
         ))}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="absolute w-1 h-1 -m-1 overflow-hidden clip-hidden"
+        id={idInput}
+      >
+        <div>
+          {total === 0 ? (
+            <p>tu contrasenia esta lista!</p>
+          ) : (
+            <p>
+              {total} requirements out of {requirement.length}
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
