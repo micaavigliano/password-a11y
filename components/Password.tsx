@@ -61,6 +61,7 @@ const PasswordComponent = () => {
             aria-label={
               seePassword ? `esconder contraseña` : `mostrar contraseña`
             }
+            className="hover:shadow-lg hover:bg-pink-300 hover:text-black"
           >
             {seePassword ? <VisibilityOff /> : <Visibility />}
           </button>
@@ -77,7 +78,9 @@ const PasswordComponent = () => {
         <button
           type="submit"
           className={`rounded-full border-solid border-2 border-white px-3 py-1 mt-3 ${
-            !isDirty ? "bg-gray-300 text-gray-400" : "bg-transparent"
+            !isDirty
+              ? "bg-gray-300 text-gray-400 cursor-not-allowed"
+              : "bg-transparent shadow-md hover:shadow-lg hover:bg-pink-300 hover:text-black"
           }`}
           disabled={!isDirty}
         >

@@ -33,6 +33,10 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
   const isArray = Array.isArray(requirement);
   const [total, setTotal] = useState(requirement.length);
 
+  const unfulfilledRequirements = requirement.filter(
+    (req) => !password.match(req.matchRegex)
+  ).length;
+
   const checkIfAllAreChecked = useCallback(
     (requirement: Requirement[]) => {
       let fulfilledRequirements = 0;
@@ -52,7 +56,14 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
 
   useEffect(() => {
     checkIfAllAreChecked(requirement);
-  }, [password, checkIfAllAreChecked, requirement, setIsDirty]);
+    setIsDirty(unfulfilledRequirements === 0);
+  }, [
+    password,
+    checkIfAllAreChecked,
+    requirement,
+    setIsDirty,
+    unfulfilledRequirements,
+  ]);
 
   useEffect(() => {
     setIsDirty(null);
