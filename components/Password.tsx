@@ -47,7 +47,7 @@ const PasswordComponent = () => {
             placeholder="Type your password"
             autoComplete="new-password"
             aria-label="type your password"
-            className="text-white bg-transparent placeholder:text-slate-400 w-full"
+            className="text-white bg-transparent placeholder:text-slate-400 w-11/12"
             id="password-input-id"
             aria-describedby="password-requirement"
             required
