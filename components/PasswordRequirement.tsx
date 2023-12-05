@@ -29,6 +29,7 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
   setIsDirty,
   idInput,
   isDirty,
+  id,
 }) => {
   const isArray = Array.isArray(requirement);
   const [total, setTotal] = useState(requirement.length);
@@ -95,9 +96,7 @@ const PasswordRequirements: React.FC<RequirementsProps> = ({
               </div>
             )}
             {isDirty === null ? (
-              <p className="text-gray-500" aria-live="polite" id={idInput}>
-                {req.text}
-              </p>
+              <p className="text-gray-500">{req.text}</p>
             ) : (
               <>
                 <p

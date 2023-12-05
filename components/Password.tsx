@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import PasswordRequirements from "./PasswordRequirement";
 import { requirementsArray, testRequirement } from "../helpers/requirements";
@@ -9,25 +9,21 @@ const PasswordComponent = () => {
   const [seePassword, setSeePassword] = useState<boolean>(false);
   const [password, setPassword] = useState<string | null>("");
   const [isDirty, setIsDirty] = useState<boolean | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
+  const passwordRequirements = requirementsArray.map((req) => req.text);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   return (
     <section className="m-auto flex flex-col items-center rounded-md border-solid border-2 border-white p-6 box-border">
-      <h1 aria-describedby="must-have">Validación accessible de contraseñas</h1>
-      <div
-        id="must-have"
-        data-testid="hidden-msg"
-        className="overflow-hidden hidden"
-      >
-        <ul>
-          {requirementsArray.map((req) => (
-            <li key={req.id}>{req.text}</li>
-          ))}
-        </ul>
-      </div>
+      <h1>Validación accessible de contraseñas</h1>
       <form onSubmit={handleSubmit} id="form-id" className="pb-2 pt-6">
         <label htmlFor="password-input-id">Contraseña</label>
         <div
@@ -46,12 +42,18 @@ const PasswordComponent = () => {
             }}
             placeholder="Escribí tu contraseña"
             autoComplete="new-password"
-            aria-label="Escribí tu contraseña"
             className="text-white bg-transparent placeholder:text-slate-400 w-11/12"
             id="password-input-id"
             aria-describedby="password-requirement"
             required
+            ref={inputRef}
           />
+          <p
+            id="password-requirement"
+            className="absolute w-1 h-1 -m-1 overflow-hidden clip-hidden"
+          >
+            tu contraseña debe incluir {passwordRequirements}
+          </p>
           <button
             onClick={() => {
               setSeePassword(!seePassword);
