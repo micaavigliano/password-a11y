@@ -4,7 +4,7 @@
 export const requirementsArray = [
   {
     id: 1,
-    text: "un número de 0 a 9.",
+    text: "contener al menos un número de 0 a 9.",
     initialState: false,
     matchRegex: /[0-9]/,
   },
@@ -37,7 +37,7 @@ export const requirementsArray = [
 export const requirementsShorterArray = [
   {
     id: 1,
-    text: "un número de 0 a 9.",
+    text: "contener al menos un número de 0 a 9.",
     initialState: false,
     matchRegex: /[0-9]/,
   },
@@ -65,7 +65,7 @@ export const requirementsShorterArray = [
 export const testRequirement = [
   {
     id: 1,
-    text: "un número de 0 a 9.",
+    text: "contener al menos un número de 0 a 9.",
     initialState: false,
     matchRegex: /[0-9]/,
   },
